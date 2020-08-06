@@ -15,6 +15,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * This is a convenience class that allows customization to WebSecurity and
+ * HttpSecurity
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -50,8 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         /** This project does not need CSRF */
         httpSecurity.csrf().disable()
-                /** Do not authenticate this particular request */
-                .authorizeRequests().antMatchers("/auth").permitAll()
+                /** Do not authenticate requests from /auth and /register url links */
+                .authorizeRequests().antMatchers("/auth", "/register").permitAll()
                 /** Authenticate all other requests */
                 .anyRequest().authenticated().and()
                 /** ensure stateless session is used */

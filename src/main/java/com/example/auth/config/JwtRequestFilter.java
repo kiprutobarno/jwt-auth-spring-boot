@@ -19,6 +19,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
+/**
+ * This class extends the Spring Web Filter OncePerRequestFilter class
+ * 
+ * For every incoming request, this Filter class gets executed
+ * 
+ * It checks if a request has a valid JWT, and if so sets the Authentication in
+ * the context to specify that the current user is authenticated
+ */
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
