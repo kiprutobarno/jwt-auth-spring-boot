@@ -3,6 +3,7 @@ package com.example.auth.controller;
 import com.example.auth.config.JwtTokenUtil;
 import com.example.auth.model.JwtRequest;
 import com.example.auth.model.JwtResponse;
+import com.example.auth.model.UserDTO;
 import com.example.auth.service.JwtUserDetailsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
-@SuppressWarnings("unused")
 public class JwtAuthenticationController {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -35,6 +34,11 @@ public class JwtAuthenticationController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    @PostMapping(value = "/register")
+    public ResponseEntity<?> createUser(@RequestBody UserDTO user) throws Exception {
+        return ResponseEntity.ok(userDetailsService.create(user));
     }
 
     private void authenticate(String username, String password) throws Exception {

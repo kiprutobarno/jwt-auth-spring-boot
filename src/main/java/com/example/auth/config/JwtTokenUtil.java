@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+/**
+ * This class performs JWT operations like creation and validation
+ */
 @Component
 public class JwtTokenUtil implements Serializable {
     private static final long serialVersionUID = -2550185165626007488L;
@@ -38,8 +41,7 @@ public class JwtTokenUtil implements Serializable {
     }
 
     /**
-     * Use the secret key to retriev information from the
-     * t@SuppressWarnings('deprecation')oken
+     * Use the secret key to retriev information from JWT
      */
     @SuppressWarnings("deprecation")
     private Claims getAllClaimsFromToken(String token) {
@@ -52,7 +54,7 @@ public class JwtTokenUtil implements Serializable {
         return expirationDate.before(new Date());
     }
 
-    /** generate JWT token */
+    /** generate JWT */
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(claims, userDetails.getUsername());
